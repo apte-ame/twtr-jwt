@@ -87,3 +87,22 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 
 docker push 767398118548.dkr.ecr.us-east-1.amazonaws.com/twtr-be:dev
 docker push 767398118548.dkr.ecr.us-east-1.amazonaws.com/twtr-fe:dev
+
+Updated builspec - syntax update ([Container] 2024/06/10 13:56:37.192312 No commands found for phase name: install
+[Container] 2024/06/10 13:56:37.193952 Setting HTTP client timeout to higher timeout for Github and GitHub Enterprise sources
+[Container] 2024/06/10 13:56:37.194480 Processing environment variables
+[Container] 2024/06/10 13:56:37.477073 Selecting 'docker' runtime version '24.0.6' based on manual selections...
+[Container] 2024/06/10 13:56:37.477113 Phase complete: DOWNLOAD_SOURCE State: FAILED
+[Container] 2024/06/10 13:56:37.477122 Phase context status code: YAML_FILE_ERROR Message: Unknown runtime named 'docker'. This build image has the following runtimes: dotnet, golang, java, nodejs, php, python, ruby
+)
+    phases:
+    install:
+        # runtime-versions:
+        #   docker: 18
+        commands:
+        - echo "Installing Docker 18..."
+        - curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-18.09.9.tgz -o docker.tgz
+        - tar xzvf docker.tgz
+        - mv docker/* /usr/bin/
+        - dockerd & # Start the Docker daemon in the background
+        - while(! docker stats --no-stream ); do echo "Waiting for Docker to start..."; sleep 1; done
