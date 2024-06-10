@@ -1,4 +1,3 @@
-flask
 flask-bcrypt
 flask-cors
 flask-api
@@ -10,3 +9,6 @@ PyJWT
 python-dateutil
 pytz
 dnspython
+Werkzeug==2.3
+Flask-Login==0.6.3
+Flask>0.7.1

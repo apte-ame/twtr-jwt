@@ -1,0 +1,89 @@
+# Create a virtual environment
+python -m venv venv
+
+or
+
+python3.9 -m venv venv
+
+# Activate the virtual environment
+# On Windows:
+venv\Scripts\activate
+# On Unix or MacOS:
+source venv/bin/activate
+
+# Install Flask inside the virtual environment
+pip install Flask
+
+
+
+################################
+
+docker build -f Dockerfile-dev -t flask-app-dev .
+docker run -p 5000:5000 flask-app-dev
+
+
+ImportError: cannot import name 'url_decode_stream' from 'werkzeug.urls' (/usr/local/lib/python3.9/site-packages/werkzeug/urls.py)
+    Werkzeug==2.3
+    Flask-Login==0.6.3
+    Flask
+
+    https://stackoverflow.com/questions/77215107/importerror-cannot-import-name-url-decode-from-werkzeug-urls
+
+mongodb+srv://admin:admin@tweets.pmxbjtj.mongodb.net/?retryWrites=true&w=majority&appName=tweets
+
+@app.before_first_request
+AttributeError: 'Flask' object has no attribute 'before_first_request'
+    initialized = False
+
+    def initialize():
+        global initialized
+        if not initialized:
+            set_env_var()
+            apply_collection_level_updates()
+            initialized = True
+
+    @app.before_request
+    def before_request_func():
+        initialize()
+
+choco upgrade nodejs
+
+docker build -t my-node-app -f Dockerfile.dev .
+
+# Run the Docker container
+docker run -p 3000:3000 my-node-app
+
+npm run build error = 
+Error: error:0308010C:digital envelope routines::unsupported at new Hash (node:internal/crypto/hash:79:19)
+    Upgrade Webpack to version 5 which implements its own MD4 algorithm without depending on Node’s implementation.
+    Set the NODE_OPTIONS environment variable to --openssl-legacy-provider when running your development server.
+    Downgrade the Node.js version to LTS (16.14.0).
+    Modify the package.json start script to "start": "react-scripts --openssl-legacy-provider start".
+
+    https://www.bing.com/search?q=Error%3A+error%3A0308010C%3Adigital+envelope+routines%3A%3Aunsupported+at+new+Hash+(node%3Ainternal%2Fcrypto%2Fhash%3A79%3A19)&cvid=2c7cfdec4ead4a8bae8eaae65232701b&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg6MggIAhDpBxj8VdIBCDEwNTZqMGo5qAIAsAIA&FORM=ANAB01&ucpdpc=UCPD&PC=DCTS
+
+    https://sebhastian.com/error-0308010c-digital-envelope-routines-unsupported/
+
+
+http://localhost:3000/signin
+
+
+To stop the containers:
+– docker-compose stop
+To bring down the containers:
+– docker-compose down
+Bring down the containers and volumes:
+– docker-compose down -v
+Want to force a build?
+– docker-compose build --no-cache
+Remove images:
+– docker rmi $(docker images -q)
+
+docker build -f be/Dockerfile -t 767398118548.dkr.ecr.us-east-1.amazonaws.com/twtr-be:dev ./be
+docker build -f fe/Dockerfile -t 767398118548.dkr.ecr.us-east-1.amazonaws.com/twtr-fe:dev ./fe
+
+Use docker CLI to login to ECR
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 767398118548.dkr.ecr.us-east-1.amazonaws.com
+
+docker push 767398118548.dkr.ecr.us-east-1.amazonaws.com/twtr-be:dev
+docker push 767398118548.dkr.ecr.us-east-1.amazonaws.com/twtr-fe:dev

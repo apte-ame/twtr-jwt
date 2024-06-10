@@ -32,7 +32,9 @@ g = dict()
 
 # mongo
 #mongo_client = MongoClient('mongodb://localhost:27017/')
-mongo_client = MongoClient("mongodb+srv://admin:admin@tweets.8ugzv.mongodb.net/tweets?retryWrites=true&w=majority")
+# mongo_client = MongoClient("mongodb+srv://admin:admin@tweets.8ugzv.mongodb.net/tweets?retryWrites=true&w=majority")
+mongo_client = MongoClient("mongodb+srv://admin:admin@tweets.pmxbjtj.mongodb.net/?retryWrites=true&w=majority&appName=tweets")
+
 class MyMongo(object):
     def __init__(self, db_name):
         self.db_name = db_name
@@ -48,6 +50,7 @@ class MyMongo(object):
         pass
     
 app = Flask(__name__)
+initialized = False
 CORS(app)
 bcrypt = Bcrypt(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -671,14 +674,23 @@ def mock_tweets():
 
 # This runs once before the first single request
 # Used to bootstrap our collections
-@app.before_first_request
-def before_first_request_func():
-    set_env_var()
-    applyCollectionLevelUpdates()
+# @app.before_first_request
+# def before_first_request_func():
+#     set_env_var()
+#     applyCollectionLevelUpdates()
+
+def initialize():
+    global initialized
+    if not initialized:
+        set_env_var()
+        applyCollectionLevelUpdates()
+        initialized = True
+
 
 # This runs once before any request
 @app.before_request
 def before_request_func():
+    initialize()
     applyRecordLevelUpdates()
 
 
