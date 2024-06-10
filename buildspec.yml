@@ -18,7 +18,6 @@ phases:
       - while(! docker stats --no-stream ); do echo "Waiting for Docker to start..."; sleep 1; done
   pre_build:
     commands:
-      - docker login -u $username -p $password
       - echo logging in to ecr...
       - >
         aws ecr get-login-password --region $AWS_REGION \
