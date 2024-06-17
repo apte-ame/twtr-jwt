@@ -1,0 +1,86 @@
+# Flask and Werkzeug version conflict and function deprecations
+Error: ImportError: cannot import name 'url_decode_stream' from 'werkzeug.urls' (/usr/local/lib/python3.9/site-packages/werkzeug/urls.py)
+  
+...Updated requirements.txt
+Werkzeug==2.3 (newly added)
+Flask-Login==0.6.3 (newly added)
+Flask>0.7.1
+...Previously
+flask
+
+Reference   
+https://stackoverflow.com/questions/77215107/importerror-cannot-import-name-url-decode-from-werkzeug-urls
+
+######################################################################################
+
+#be/twtr.py file-
+Error - @app.before_first_request AttributeError: 'Flask' object has no attribute 'before_first_request'
+
+...Old code
+@app.before_first_request
+def before_first_request_func():
+    set_env_var()
+    applyCollectionLevelUpdates()
+
+# This runs once before any request
+@app.before_request
+def before_request_func():
+    applyRecordLevelUpdates()
+
+
+...New Code
+initialized = False
+def initialize():
+    global initialized
+    if not initialized:
+        set_env_var()
+        applyCollectionLevelUpdates()
+        initialized = True
+
+@app.before_request
+def before_request_func():
+    initialize()
+    applyRecordLevelUpdates()
+
+######################################################################################
+
+#For running npm run build locally - (building fe project code required for building docker image using Dockerfile.dev)
+npm run build error = 
+Error: error:0308010C:digital envelope routines::unsupported at new Hash (node:internal/crypto/hash:79:19)
+    Upgrade Webpack to version 5 which implements its own MD4 algorithm without depending on Node’s implementation.
+    Set the NODE_OPTIONS environment variable to --openssl-legacy-provider when running your development server.
+    Downgrade the Node.js version to LTS (16.14.0).
+    Modify the package.json start script to "start": "react-scripts --openssl-legacy-provider start".
+Reference -
+https://www.bing.com/search?q=Error%3A+error%3A0308010C%3Adigital+envelope+routines%3A%3Aunsupported+at+new+Hash+(node%3Ainternal%2Fcrypto%2Fhash%3A79%3A19)&cvid=2c7cfdec4ead4a8bae8eaae65232701b&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg6MggIAhDpBxj8VdIBCDEwNTZqMGo5qAIAsAIA&FORM=ANAB01&ucpdpc=UCPD&PC=DCTS
+
+https://sebhastian.com/error-0308010c-digital-envelope-routines-unsupported/
+
+######################################################################################
+
+#Updated buildspec.yml file -
+
+Error - [Container] 2024/06/10 13:56:37.192312 No commands found for phase name: install
+[Container] 2024/06/10 13:56:37.193952 Setting HTTP client timeout to higher timeout for Github and GitHub Enterprise sources
+[Container] 2024/06/10 13:56:37.194480 Processing environment variables
+[Container] 2024/06/10 13:56:37.477073 Selecting 'docker' runtime version '24.0.6' based on manual selections...
+[Container] 2024/06/10 13:56:37.477113 Phase complete: DOWNLOAD_SOURCE State: FAILED
+[Container] 2024/06/10 13:56:37.477122 Phase context status code: YAML_FILE_ERROR Message: Unknown runtime named 'docker'. This build image has the following runtimes: dotnet, golang, java, nodejs, php, python, ruby
+
+...Old Code
+phases:
+    install:
+        runtime-versions:
+            docker: 18
+
+...New Code
+phases:
+    install:
+        commands:
+        - echo "Installing Docker 18..."
+        - curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-18.09.9.tgz -o docker.tgz
+        - tar xzvf docker.tgz
+        - mv docker/* /usr/bin/
+        - dockerd & # Start the Docker daemon in the background
+        - while(! docker stats --no-stream ); do echo "Waiting for Docker to start..."; sleep 1; done
+

@@ -25,7 +25,7 @@ docker run -p 5000:5000 flask-app-dev
 ImportError: cannot import name 'url_decode_stream' from 'werkzeug.urls' (/usr/local/lib/python3.9/site-packages/werkzeug/urls.py)
     Werkzeug==2.3
     Flask-Login==0.6.3
-    Flask
+    Flask>0.7.1
 
     https://stackoverflow.com/questions/77215107/importerror-cannot-import-name-url-decode-from-werkzeug-urls
 
@@ -106,3 +106,9 @@ Updated builspec - syntax update ([Container] 2024/06/10 13:56:37.192312 No comm
         - mv docker/* /usr/bin/
         - dockerd & # Start the Docker daemon in the background
         - while(! docker stats --no-stream ); do echo "Waiting for Docker to start..."; sleep 1; done
+
+
+docker build --build-arg MY_VAR=my_value -t my_image .
+
+
+docker-compose build --build-arg REACT_APP_API_SERVICE_URL='http://localhost:5004'
