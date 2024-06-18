@@ -112,3 +112,12 @@ docker build --build-arg MY_VAR=my_value -t my_image .
 
 
 docker-compose build --build-arg REACT_APP_API_SERVICE_URL='http://localhost:5004'
+docker build --build-arg REACT_APP_API_SERVICE_URL='http://flask-react-alb-677542673.us-west-2.elb.amazonaws.com:5004'
+
+docker build --build-arg REACT_APP_API_SERVICE_URL='http://flask-react-alb-677542673.us-west-2.elb.amazonaws.com:5004' -f ../be/Dockerfile -t 767398118548.dkr.ecr.us-west-2.amazonaws.com/twtr-be:dev ../be --no-cache
+docker build --build-arg REACT_APP_API_SERVICE_URL='http://flask-react-alb-677542673.us-west-2.elb.amazonaws.com:5004' -f ../fe/Dockerfile -t 767398118548.dkr.ecr.us-west-2.amazonaws.com/twtr-fe:dev ../fe --no-cache
+
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 767398118548.dkr.ecr.us-west-2.amazonaws.com
+
+docker push 767398118548.dkr.ecr.us-west-2.amazonaws.com/twtr-be:dev
+docker push 767398118548.dkr.ecr.us-west-2.amazonaws.com/twtr-fe:dev
